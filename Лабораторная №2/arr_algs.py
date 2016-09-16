@@ -9,8 +9,7 @@ def avg(arr):
     avg = 0
     for i in arr:
         avg = avg + i
-    avg = avg / len(arr)
-    return avg
+    return avg / len(arr)
     
 if __name__ == "__main__":
     arr = [1, 2, 4, 5]
