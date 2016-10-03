@@ -1,26 +1,26 @@
 ﻿<html>
-    <head>
-        <meta charset="utf-8">
-        <title>OLO</title>
-        <link href="style.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <div id="main_block">
-            <div class="caption">Welcome!</div>
-            <div class="br"></div>
-            <div id="user_data">
-                <div class="caption">Логин:</div>
-                    <input class="user_login" type="text">
-                
-                <div class="caption">Пароль:</div>
-             
-                    <input id="user_password" type="password">
-                
+  <head>
+    <meta charset="utf-8">
+    <title>OLO</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body class="nonselectable">
+    <div id="main_block">
+      <div class="caption">Welcome!</div>
+          <div class="br"></div>
+          <div id="user_data">
+            <div class="input_wrapper" data-set="Логин: ">
+              <input  type="text">
             </div>
-            <div id="buttons">
-                <button id="log_in">Войти</button>
-                <button id="register">Зарегистрироваться</button>
+            <div class="input_wrapper" data-set="Пароль: ">
+              <input type="password">
             </div>
-        </div>
-    </body>
+          </div>
+          <div id="buttons">
+            <a href="#" id="log_in">Войти</a>
+            <a href="#" id="register">Зарегистрироваться</a>
+          </div>
+          <a href="#" id="login_guest">Зайти гостем?</a>      
+      </div>
+  </body>
 </html>

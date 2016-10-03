@@ -1,16 +1,48 @@
+.nonselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 #main_block
 {   
     width : 300px;
     margin: auto;
-    border : 2px solid black;
-    border-radius : 10px;
+    border : 1px solid black;
+
 }
+
+#main_block > a
+{
+    display :block;
+    text-align : right;
+    margin: 3px 28px;
+}
+
 
 .caption
 {
     font-size : 20px;
     margin : 5px 5px;
 }
+
+.input_wrapper
+{
+    display:inline-block;
+    margin : 2px;
+    
+}
+
+.input_wrapper::before
+{
+    display:inline-block;
+    content:attr(data-set);
+    width : 63px;
+}
+
 
 #main_block > .caption 
 {
@@ -20,11 +52,9 @@
 
 #user_data
 {
-    margin : 10px 10px;
-    display:flex;
-    flex-wrap : wrap;
-    justify-content:space-around;
+    margin : 5px 28px;
 }
+
 
 #buttons
 {
@@ -33,18 +63,17 @@
     justify-content:space-around;
 }
 
-.user_login::before
-{
-    content: "  Логин:";
-    width : 10px;
-}
-
+/*
 #log_in, #register
 {
-    margin : 10px 10px;
-    border-radius: 5px
+    margin : 2px 10px;
+    border-radius: 5px;
+    border : 1px solid black;
+    padding:2px;
+    background-color : rgba(210, 207, 207, 0.45);
+    cursor : pointer;
 }
-
+*/
 .br
 {
     height:1px;
