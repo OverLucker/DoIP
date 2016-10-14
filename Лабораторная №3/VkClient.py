@@ -3,28 +3,29 @@ import requests
 import json
 import datetime
 
-class ClientException(Exception):
-    def __init__(self):
-        pass
-
 class VkClient(BaseClient.BaseClient):
     def __init__ (self, method):
         self.BASE_URL = 'https://api.vk.com/method/'
         self.method = method
         self.http_method = 'get'
         
+        
     def get_json(self):
         pass
+        
         
     def get_dict_data(self):
         dict_data = json.loads(self.execute())
         return dict_data
 
+        
     def _get_data(self, method, http_method):
         response = None
         if http_method == 'get':
             response = requests.get(self.generate_url(method))
         return self.response_handler(response)
+        
+        
     def response_handler(self,response):
         dict_data = ""
         dict_data = json.loads(response.text)
@@ -36,11 +37,13 @@ class VkClient(BaseClient.BaseClient):
 def create_args(args):
     return "&".join("%s=%s" % (key, value) for key, value in args.items())
         
+        
 def check_bdatt(obj):
     return ("bdate" in obj.keys()) and (len(obj["bdate"].split('.')) == 3)
 
+    
 if __name__ == "__main__" :
-    name = input("Введите имя>")
+    name = input("Введите ID>")
     try:
         vk_name = VkClient('users.get?user_ids=' + name)
         name = vk_name.get_dict_data()
