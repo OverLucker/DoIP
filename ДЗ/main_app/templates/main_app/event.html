@@ -1,0 +1,25 @@
+﻿<html>
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <link href="{% static 'event_style.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'scripts/jquery-3.1.0.min.js' %}"></script>
+  </head>
+  <body>  
+    <div class="item" id={{ event.id }}>
+      <image src="{% static event.img %}">
+      <div class="item_view" is_part={{ is_part }}>
+        <div class="item_cap">{{ event.name }}</div>
+        <div class="item_date">{{ event.when }}</div>
+        <div class="item_place">{{ event.where }}</div>
+        <div class="item_desc">{{ event.description }}</div>
+        <div class="wrapper">
+          <button id="join">Участвовать!</button>
+          <button id="leave">Отказаться от участия</button>
+        </div>
+      </div>
+    </div>
+    <a href="{% url 'eventsMainPage' %}"><-Назад</a>
+    <script src="{% static 'scripts/event.js' %}"></script>
+  </body>
+</html>

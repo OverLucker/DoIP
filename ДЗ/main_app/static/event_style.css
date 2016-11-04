@@ -1,0 +1,164 @@
+body
+{
+    display:none;
+}
+
+/* header section */
+/*-------------------------------------------------*/
+#header_head
+{
+    display:inline-block;
+    width : 50%;
+    font-weight : bold;
+    font-size : 50px;
+    line-height : 100%;
+}
+
+#header_user_page
+{
+    display:none;
+    margin: 10px 5px;
+    float:right;
+}
+
+#header_logout
+{
+    display:none;
+    margin: 10px 5px;
+    float:right;
+    line-height : 100%;
+}
+
+#header_login 
+{
+    display:inline-block;
+    float : right;
+    margin: 10px 5px;
+    line-height : 100%;
+}
+
+#header_sign_up
+{
+    display:inline-block;
+    margin: 10px 5px;
+    float:right;
+}
+
+#header
+{
+    position:relative;
+    width : 100%;
+    display : block;
+    font-size : 20px;
+}
+/*-------------------------------------------------*/
+
+.br
+{
+    height:3px;
+    background-color:black;
+}
+
+.wrapper
+{
+    display: block;
+    margin : 10px;
+}
+
+/*item section*/
+/*-------------------------------------------------*/
+.item 
+{
+    display:flex;
+    flex-direction : row;
+    flex-wrap : wrap;
+    justify-content:space-around;
+    margin: 10px 10px;
+}
+
+.item_view
+{
+    width : calc(100% - 324px);
+    margin : 10px;
+}
+
+
+.item_desc
+{
+    text-align : center;
+    font-size: 20px;
+}
+
+
+.item_cap
+{
+    text-align:center;
+    line-height:100%;
+    font-size : 70;
+}
+
+.item_date, .item_place
+{
+    font-size : 25px;
+    margin : 5px;
+    font-style : italic;
+}
+
+.item_date:before
+{
+    content:"Когда:";
+    display:inline-block;
+    text-align : center;
+    font-weight : bold;
+    width:75px;
+}
+
+.item_place:before
+{
+    content:"Где:";
+    display: inline-block;
+    text-align:center;
+    font-weight : bold;
+    width : 50px;
+}
+
+#join, #leave
+{
+    display : inline-block;
+    float : right;
+    margin : 0 auto;
+    font-size : 25px;
+    font-weight: bold;
+    text-align:center;
+    border : 2px solid black;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
+img
+{
+    display : block;
+    width: 300px;
+    height: 300px;
+    border : 2px solid black;
+    border-radius: 10px;
+    text-align : center;
+    margin : 0 auto;
+}
+/*-------------------------------------------------*/
+
+a
+{
+    font-size: 20px;
+}
+
+
+@media screen and (max-width: 600px)
+{
+    .item {
+        flex-direction: column;
+    }
+    .item_view {
+        width : 100%;
+     }
+}

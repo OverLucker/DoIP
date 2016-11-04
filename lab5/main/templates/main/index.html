@@ -1,0 +1,12 @@
+﻿<html>
+  <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/bootstrap.min.css' %}">
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <div>Some page</div>
+    <div>{% block body %}Переопределяется в наследниках{% endblock %}</div>
+  </body>
+</html>

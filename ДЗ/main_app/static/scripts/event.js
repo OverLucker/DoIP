@@ -14,9 +14,21 @@ $('#header_logout').click( function () {
     $('#header_login').show();
 });
 
-$('#click_me').click( function () {
-    $.get ("../cgi-bin/form.py").done (function (data) { 
-        alert("data : " + data);
-    });
+$('#join').click( function() {
+    // i should submit here that i'm going to participate
 });
 
+$('#leave').click( function() {
+    // i should submit here that i'm NOT going to participate
+});
+
+$( document ).ready( function() {
+    $('body').show();
+});
+
+window.onload = function() {
+    if ($('.item_view').attr('is_part') == "True")
+        $('#join').hide();
+    else
+        $('#leave').hide();
+};

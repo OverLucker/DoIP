@@ -1,0 +1,14 @@
+﻿{% extends 'main/index.html' %}
+
+{% block title %}Заказы{% endblock %}
+
+{% block body %}
+  <ul class="lead">
+    {% for order in orders %}
+      <li><a href="{% url 'order_url' order.id %}">{{ order.title }}</a></li>
+    {% empty %}
+      <li>Пустой список</li>
+    {% endfor %}
+  </ul>
+  <del> Test </del>
+{% endblock %}

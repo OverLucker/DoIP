@@ -1,3 +1,11 @@
+body{
+    height:100%;
+}
+
+a {
+    text-decoration : none;
+}
+
 #header_head
 {
     display:inline-block;
@@ -104,7 +112,7 @@ img
     margin : auto;
 }
 
-@media screen and (max-width: 400px)
+@media screen and (max-width: 600px)
 {
     .item {
         flex-direction: column;
