@@ -1,0 +1,66 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container_list clearfix">
+
+        <!-- add new record -->
+        <div id="modal_window">
+        
+            <form id="form" class="clearfix" action="add" method="POST" enctype="multipart/form-data">
+                <div class="header clearfix">
+                    <h5>Add new record</h5>
+                    <div class="button anim" id="hide_modal_window">
+                        &#215;
+                    </div>
+                </div>
+                <div class="left_side">
+                    <div id="add_image" class="anim">+
+                        {{ add_form.image }}
+                        <div id="pre_img"></div>
+                    </div>
+                </div>
+                <div class="right_side">
+                    {% csrf_token %}
+                    {{ add_form.name }}
+                    {{ add_form.address }}
+                    {{ add_form.time }}
+                    {{ add_form.desc }}
+                </div>
+                <div class="footer clearfix">
+                    <button id="add_rec_button" class="anim" type="submit">
+                        Add
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- add new record -->
+
+        <div class="left col">
+            <div class="ext_info" id="left_bar_stick">
+                <h3>List {{ name }}</h3>
+                <p>
+                    В 1926 году магический зоолог Ньют Саламандер занимается классификацией фантастических зверей и существ. Он прибывает в Нью-Йорк с волшебным чемоданом, содержащим в себе некоторое количество опасных магических тварей и их естественные среды обитания. Когда эти существа сбегают из чемодана, американские волшебные власти из «Магического Конгресса Управления по Северной Америке» (МАКУСА) бросаются в погоню за Ньютом.
+                </p>
+            </div>
+        </div>
+        <div class="right col">
+    
+        {% include 'main/base_list.html' with events=events %}
+
+            <div id="loading_block"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'main/script.js' %}">
+    </script>
+{% endblock %}
