@@ -3,3 +3,4 @@ settings.py
 __init__.py
 manage.py
 db.sqlite3
+.DS_Store
