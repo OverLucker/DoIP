@@ -1,9 +1,26 @@
 import os
 import textwrap
-from main.models import Team 
+from main.models import Event 
 import random
+from django.utils import timezone
 
 path = 'main/static/images/pokemons'
+
+addresses =[
+    'Moscow, Arbat',
+    'Moscow, Teatralnaya',
+    'Moscow, Red Square',
+    'Moscow, VDNH',
+    'Moscow, Gorkov Park',
+    'Vladivostok, Naberezhnaya',
+    'China, Pekin',
+    'Vladivostok, China Town',
+    'Moscow, China Town',
+    'St. Petersburg, China Town',
+    'St. Petersburg, Bridge',
+    'St. Petersburg, Ermitazh',
+    'St. Petersburg, Naberezhnaya',
+]
 
 countries = [
     "Russia",
@@ -28,7 +45,7 @@ def fix():
         i.save()
 
 def generate():
-    with open(os.path.join(path, 'names.txt'), "r") as file:
+    with open(os.path.join(path, 'names.txt'), "r", encoding='utf-8') as file:
         names = file.read().split('\n')
 
     # print(names)
@@ -43,11 +60,18 @@ def generate():
     print(images)
 
     for i in range(1000):
-        t = Team()
-        t.name = random.choice(names)
-        t.country = random.choice(countries)
-        t.sportType = random.choice(sportTypes)
-        t.imageUrl = "images/pokemons" + random.choice(images)
-        t.desc = random.choice(descs)
-        t.prizeCount = random.randrange(2, 999)
-        t.save()
+        t = Event.objects.create(
+            name = random.choice(names),
+            address = random.choice(addresses),
+            time = timezone.datetime(
+                year=random.randrange(2000, 2020),
+                month=random.randrange(1, 12),
+                day=random.randrange(1, 28),
+                hour=random.randrange(0, 23),
+                minute=random.randrange(0, 60),
+                tzinfo=timezone.utc
+            ),
+            desc = random.choice(descs),
+            imageUrl = "images/pokemons/" + random.choice(images)
+        )
+        
