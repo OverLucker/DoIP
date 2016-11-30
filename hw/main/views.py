@@ -2,11 +2,10 @@ from django.shortcuts import render, render_to_response, redirect, get_object_or
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 
 from django.views import View
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 # local imports
 from .models import Event
@@ -40,48 +39,49 @@ class LogRegView(BaseView):
     def get(self, request):
         if request.user.is_authenticated:
             logout(request)
-       
-        authForm = AuthForm()
-        regForm = RegistrationForm()
         
         return super().get(request, 'registration/login.html', {
-                'registration_form': regForm,
-                'login_form' : authForm,
+                'registration_form': RegistrationForm(),
+                'login_form' : AuthForm(),
             })
 
             
 # register new user & login it
 def register(request):
-    # form = RegistrationForm(request.POST)
-    username = request.POST.get("username")
-    password1 = request.POST.get("password1")
-    password2 = request.POST.get("password2")
-    if (password1 == password2):
+    if request.method != 'POST':
+        return JsonResponse({'error' : 'Data should be posted to this URL'})
         
-        if (User.objects.filter(username = username).exists()):
-            resp = {"error" : "Already busy"}
-            return HttpResponse(resp)
-            
-        # register now    
-        user = User.objects.create_user(username = username, password = password1)
-        request.POST = request.POST.copy()
-        request.POST["password"]=password1
-        return auth(request)
+    form = RegistrationForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse(form.errors)
+        
+    username = form.cleaned_data.get("username")
+    password = form.cleaned_data.get("password1")
 
-    return HttpResponse("Error")
-  
+    # register now    
+    user = User.objects.create_user(username=username, password=password)
+    
+    #sending auth request
+    request.POST = request.POST.copy()
+    request.POST['password'] = password
+    return auth(request)
+ 
 
 # login users  
 def auth(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
-    user = authenticate(username = username, password = password)
+    user = authenticate(username=username, password=password)
+
     if user is not None:
         login(request, user)
         return redirect('main_page')
+    
     return redirect('login_url')
 
-    
+
+
+
 # returns requested page
 def page_request(request, page_id):
     context = {

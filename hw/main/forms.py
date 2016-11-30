@@ -4,25 +4,59 @@ from django import forms
 from .models import Event
 
 class AuthForm (AuthenticationForm):
-    username = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={'placeholder': 'Username'}))
-    password = forms.CharField(required=True, widget=forms.widgets.PasswordInput(attrs={'placeholder': 'Password'}))
+    username = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(
+            attrs={'placeholder': 'Username'}
+        )
+    )
+    
+    password = forms.CharField(
+        required=True, 
+        widget=forms.widgets.PasswordInput(
+            attrs={'placeholder': 'Password'}
+        )
+    )
 
     class Meta:
         fields = ['username', 'password']
         model = User
 
+        
 class RegistrationForm (UserCreationForm):
-    username = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={'placeholder': 'Username'}))
-    password1 = forms.CharField(required=True, widget=forms.widgets.PasswordInput(attrs={'placeholder': 'Password'}))
-    password2 = forms.CharField(required=True, widget=forms.widgets.PasswordInput(attrs={'placeholder': 'Password Confirmation'}))
+    username = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(
+            attrs={'placeholder': 'Username'}
+        )
+    )
+    
+    password1 = forms.CharField(
+        required=True,
+        label='Password',        
+        widget=forms.widgets.PasswordInput(
+            attrs={'placeholder': 'Password'}
+        )
+    )
+    
+    password2 = forms.CharField(
+        required=True, 
+        label='Password Confirmation',
+        widget=forms.widgets.PasswordInput(
+            attrs={'placeholder': 'Password Confirmation'}
+        )
+    )
      
     class Meta:
         fields = ['username', 'password1', 'password2']
         model = User
         
         
+        
+        
 class AddEventForm(forms.Form):
-    name = forms.CharField(required=True, 
+    name = forms.CharField(
+        required=True, 
         widget=forms.widgets.TextInput(
             attrs={'placeholder': 'Name', 'id': 'new_rec_name'}           
         )
@@ -34,7 +68,8 @@ class AddEventForm(forms.Form):
         )
     )
     
-    time = forms.DateTimeField(required=True,
+    time = forms.DateTimeField(
+        required=True,
         widget=forms.widgets.DateTimeInput(
             attrs={'placeholder': 'Date&Time', 'id': 'new_rec_time'},
             format="%d.%m.%Y %H:%M"
@@ -42,7 +77,8 @@ class AddEventForm(forms.Form):
         input_formats=("%d.%m.%Y %H:%M",)
     )
     
-    desc = forms.CharField(required=True,
+    desc = forms.CharField(
+        required=True,
         widget=forms.widgets.Textarea(
             attrs={'placeholder': 'Description', 'id': 'new_rec_desc'}
         ),
@@ -50,7 +86,8 @@ class AddEventForm(forms.Form):
         label='Sport'
     )
     
-    image = forms.FileField(required=False,
+    image = forms.FileField(
+        required=False,
         widget=forms.widgets.ClearableFileInput(
             attrs={'accept':'image/jpeg, image/png, image/gif', 'id':'new_rec_img'}
         )
