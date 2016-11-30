@@ -128,11 +128,11 @@ class ObjectListView(BaseView):
 # View 
 class ObjectView(BaseView):
     def get(self, request, event_id):
-        try:
-            obj = get_object_or_404(Event, id = event_id)
-            obj.participation.get(id=request.user.id)
+        # try:
+        obj = get_object_or_404(Event, id = event_id)
+        if obj.participation.filter(id=request.user.id).exists():
             status = True
-        except ObjectDoesNotExist:
+        else:
             status = False
 
         context = {
