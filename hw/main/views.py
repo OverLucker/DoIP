@@ -14,7 +14,7 @@ from .forms import AuthForm, RegistrationForm, AddEventForm
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
 
-
+from django.conf.urls import url
 from django.contrib.staticfiles.templatetags.staticfiles import static
 import os
 
@@ -121,6 +121,30 @@ class ObjectListView(BaseView):
                 'add_form': AddEventForm(),
             }
         )
+        
+    # Страница добавления объекта
+    def post(self, request):
+        form = AddEventForm(request.POST)
+        
+        if form.is_valid():
+            event = form.fill_object()
+            
+            #saving file
+            f = request.FILES.get("image")
+            
+            if f is None:
+                file_url = r'images/default.jpg'
+            else:
+                f = File(f)
+                fs = FileSystemStorage()
+                file_url = r'images/pokemons/%d%s' % (event.id, '.jpg')
+                uploaded_file_url = 'main/static/' + file_url
+                filename = fs.save(uploaded_file_url, f)
+            
+            event.imageUrl = file_url
+            event.save()
+            return redirect('single_object', event_id=event.id)
+        return JsonResponse(form.errors)
 
 
 # View 
@@ -152,26 +176,8 @@ class ObjectView(BaseView):
 
         return render_to_response(
             'object/base_user_list.html', 
-            { 'users': event.participation.all() }
+            context={ 'users': event.participation.all() }
         )
-        
 
-        
-def add_obj(request):
-    form = AddEventForm(request.POST)
-    
-    if form.is_valid():
-        event = form.fill_object()
-        
-        #saving file
-        f = File(request.FILES.get("image"))
-        fs = FileSystemStorage()
-        file_url = r'images/pokemons/%d%s' % (event.id, '.jpg')
-        uploaded_file_url = 'main/static/main/'+file_url
-        filename = fs.save(uploaded_file_url, f)
-        
-        event.imageUrl = file_url
-        event.save()
-        return redirect('main_page')
-    return JsonResponse(form.errors)
+
     
