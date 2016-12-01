@@ -1,3 +1,17 @@
+var userMessage = {};
+userMessage.show = function(text){
+    var obj = this
+    obj.html.css('display', 'flex');
+    obj.html.find('#message_block').find('.message').text(text);
+} 
+userMessage.init = function(){
+    var obj = this;
+    obj.html = $('#user_message');
+    obj.html.find('#message_block').find('.close').click(function(){
+        obj.html.hide();
+    })
+}
+
 var infinityList = {};
 infinityList.updateGeneral = function(){
     var obj = this;
@@ -87,7 +101,7 @@ modalWindow.State = function(state){
 modalWindow.init = function(){
     var obj = this;
 
-    obj.maxImgSize = 5000000;
+    obj.maxImgSize = 1000000;
 
     obj.HTML = $('#modal_window');
     
@@ -114,12 +128,13 @@ modalWindow.init = function(){
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#pre_img').css('background-image','url('+e.target.result+')');
-                $('#pre_img').css('display','block');                
+                $('#pre_img').addClass('show');                
             }
             reader.readAsDataURL(input.files[0]);
         }else{
-            alert('Максимальный размер файла: ' + obj.maxImgSize + 'байт');
-            location.reload();
+            userMessage.show('Максимальный размер файла: ' + obj.maxImgSize + ' байт');
+            input.value = null;
+            $('#pre_img').removeClass('show');
         }   
     })
 }
@@ -129,14 +144,96 @@ function stickLeftBar(id){
     $('#' + id).sticky({topSpacing: 70});
 }
 
+function isFigure(char) {
+    for (var i = 0; i < 10; i++) {
+        if (i.toString() == char) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function addZero(int){
+    if (int < 10) {
+        return '0' + int.toString();
+    }
+    return int.toString();
+}
+
+$('#add_rec_button').click(function(){
+
+    var form = $('#form_add');
+
+    var name = form.find('#new_rec_name').val(),
+        address = form.find('#new_rec_address').val(),
+        time = form.find('#new_rec_time').val(),
+        desc = form.find('#new_rec_desc').val();
+
+    if (name.length == 0) {
+        userMessage.show('Введите имя мероприятия.');      
+        return;
+    }
+
+    if (address.length == 0) {
+        userMessage.show('Введите адрес мероприятия.');      
+        return;
+    }
+
+    if (time.length == 0) {
+        userMessage.show('Введите время мероприятия в формате ДД.ММ.ГГГГ ЧЧ:ММ.');      
+        return;
+    }
+
+
+    var excludes = {'2': '.', '5': '.', '10': ' ', '13': ':'};
+    var error_datetime = 'Неверный формат ввода даты и времени';
+
+    for (var i = 0; i < time.length; i++) {
+        var char = excludes[i.toString()];
+        if (char === undefined) {
+            if(!isFigure(time.charAt(i))){ userMessage.show(error_datetime); return; };
+        }else{
+            if (time.charAt(i) != char) { userMessage.show(error_datetime); return; }
+        }     
+    }
+
+    var newDate = new Date(parseInt(time.slice(6,10)), parseInt(time.slice(3,5)) - 1, parseInt(time.slice(0,2)));
+    newDate.setHours(parseInt(time.slice(11,13)), parseInt(time.slice(14,16)));
+    
+    time = '';
+
+    time += addZero(newDate.getDate());
+    time += '.';
+    time += addZero(newDate.getMonth() + 1);
+    time += '.';
+    time += (newDate.getFullYear()).toString();
+    time += ' ';
+    time += addZero(newDate.getHours());
+    time += ':';
+    time += addZero(newDate.getMinutes());
+
+    if (desc.length == 0) {
+        userMessage.show('Введите описание мероприятия.');      
+        return;
+    }
+
+    var input = document.getElementById('new_rec_img');
+    if (!input.files || !input.files[0] || input.files[0].size == 0) {
+        userMessage.show('Добавьте картинку для мероприятия.');      
+        return;
+    }
+
+    form.submit();
+})
+
 $(document).ready(function () {
     infinityList.init();
     modalWindow.init();
+    userMessage.init();
     stickLeftBar('left_bar_stick');
 })
 
 $(window).resize(function(){
-   
     stickLeftBar('left_bar_stick');
 })
 

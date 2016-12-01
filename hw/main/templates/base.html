@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>TeamDream</title>
+    <title>Event Dream</title>
     <link rel="stylesheet" type="text/css" href="{% static 'general/reset.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'general/fonts.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'general/style.css' %}">
@@ -15,7 +15,7 @@
     <!-- ************************************************ -->
     <header class="clearfix">
         <div class="logo"></div>
-        <div class="brand">Team Dream</div>
+        <div class="brand">Event Dream</div>
         <a href="{% url 'main_page' %}" class="list anim">List</a>
         {% if authorized %}
             <div class="add_rec anim" id="show_modal_window">+</div>
@@ -35,8 +35,8 @@
     <!-- ************************************************ -->
     <div id="user_message">
         <div id="message_block">
-            <span>Test text</span>
-            <div class="anim">Ок</div>
+            <span class="message">Test text</span>
+            <div class="anim close">Ок</div>
         </div>
     </div>
     <!-- ************************************************ -->

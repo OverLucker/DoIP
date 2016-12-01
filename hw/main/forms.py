@@ -71,7 +71,7 @@ class AddEventForm(forms.Form):
     time = forms.DateTimeField(
         required=True,
         widget=forms.widgets.DateTimeInput(
-            attrs={'placeholder': 'Date&Time', 'id': 'new_rec_time'},
+            attrs={'placeholder': 'DD.MM.YYYY HH:MM', 'id': 'new_rec_time', 'maxlength': '16'},
             format="%d.%m.%Y %H:%M"
         ),
         input_formats=("%d.%m.%Y %H:%M",)

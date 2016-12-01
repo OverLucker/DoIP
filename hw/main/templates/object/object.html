@@ -18,8 +18,8 @@
                     <h5 class="name">{{ event.name }}</h5>
                     <div class="attrs_container clearfix">
                         <label class="title">Attributes</label>
-                        <label class="attr">Address {{ event.address }}</label>
-                        <label class="attr">Time {{ event.time }}</label>
+                        <label class="attr">Event address {{ event.address }}</label>
+                        <label class="attr">Event time {{ event.time }}</label>
                     </div>
                     <div class="desc_container">
                         <label class="title">Description</label>
@@ -35,17 +35,16 @@
                 <div class="list_users_block">
                     <h5 class="block_name">Users with us:</h5>
                     <div class="list_users_container" id="users_list_container">
-                        <!-- {% for user in users %}
-                            <label class="user_name">{{ user.username }}</label>
-                        {% endfor %} -->
                     </div>
                 </div>
                
+               {% if authorized %}
                 <div class="control clearfix">
                     <h5 class="block_name">Your status</h5>
                     <div class="status" status-val="{{ status }}" id="user_status" >Accepted</div>
                     <div id="change_status_button" class="anim">Change</div>
                 </div>
+                {% endif %}
               
             </div>
         </div>

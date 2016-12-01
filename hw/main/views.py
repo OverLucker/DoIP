@@ -53,7 +53,7 @@ def register(request):
         
     form = RegistrationForm(request.POST)
     if not form.is_valid():
-        return JsonResponse(form.errors)
+        return JsonResponse({'error': form.errors.popitem()[1]})
         
     username = form.cleaned_data.get("username")
     password = form.cleaned_data.get("password1")
@@ -75,9 +75,9 @@ def auth(request):
 
     if user is not None:
         login(request, user)
-        return redirect('main_page')
-    
-    return redirect('login_url')
+        return JsonResponse({'error': 'NO'})
+
+    return JsonResponse({'error': 'Неверный логин или пароль, если Вы злоумышленник - идите отсюда. Но если Вы просто проверяете валидацию - то она работает, будьте уверены.'})
 
 
 
@@ -126,25 +126,24 @@ class ObjectListView(BaseView):
     def post(self, request):
         form = AddEventForm(request.POST)
         
-        if form.is_valid():
-            event = form.fill_object()
+        if not form.is_valid():
+            return JsonResponse(form.errors)
             
-            #saving file
-            f = request.FILES.get("image")
-            
-            if f is None:
-                file_url = r'images/default.jpg'
-            else:
-                f = File(f)
-                fs = FileSystemStorage()
-                file_url = r'images/pokemons/%d%s' % (event.id, '.jpg')
-                uploaded_file_url = 'main/static/' + file_url
-                filename = fs.save(uploaded_file_url, f)
-            
-            event.imageUrl = file_url
-            event.save()
-            return redirect('single_object', event_id=event.id)
-        return JsonResponse(form.errors)
+        event = form.fill_object()
+        
+        #saving file
+        f = request.FILES.get("image")
+        
+        if f is None:
+            file_url = r'images/default.jpg'
+        else:
+            file_url = r'images/pokemons/%d%s' % (event.id, '.jpg')
+            filename = FileSystemStorage().save('main/static/' + file_url, File(f))
+        
+        event.imageUrl = file_url
+        event.save()
+        return redirect('single_object', event_id=event.id)
+        
 
 
 # View 
