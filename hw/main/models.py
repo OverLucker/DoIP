@@ -14,7 +14,7 @@ class Event(models.Model):
     participation = models.ManyToManyField( User )
     
     def __str__(self):
-        return "Name = %s, Country = %s, sportType = %s" % (self.name, self.time, self.address) 
+        return "Id=%d, Name=%s, time=%s, address=%s" % (self.id, self.name, self.time, self.address) 
         
         
 # class Team(models.Model):

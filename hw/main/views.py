@@ -25,31 +25,31 @@ import os
 # Base for all View instances in my code, 
 #   modifies context to render base.html properly
 class BaseView(View):
-    def get(self, request, template ,context):
+    def render(self, request, template ,context):
         context.update ({
-            'authorized' : request.user.is_authenticated,
-            'user' : { 'name' : request.user.username },
+            'authorized': request.user.is_authenticated,
+            'user': { 'name': request.user.username },
         })
         
         return render(request, template, context)
     
     
-# View displaying 2 forms : AuthForm & RegistrationForm
+# View displaying 2 forms: AuthForm & RegistrationForm
 class LogRegView(BaseView):
     def get(self, request):
         if request.user.is_authenticated:
             logout(request)
         
-        return super().get(request, 'registration/login.html', {
+        return super().render(request, 'registration/login.html', {
                 'registration_form': RegistrationForm(),
-                'login_form' : AuthForm(),
+                'login_form': AuthForm(),
             })
 
             
 # register new user & login it
 def register(request):
     if request.method != 'POST':
-        return JsonResponse({'error' : 'Data should be posted to this URL'})
+        return JsonResponse({'error': 'Data should be POSTed to this URL'})
         
     form = RegistrationForm(request.POST)
     if not form.is_valid():
@@ -85,7 +85,7 @@ def auth(request):
 # returns requested page
 def page_request(request, page_id):
     context = {
-        'events' : ObjectListView.get_page_dict(page_id),
+        'events': ObjectListView.get_page_dict(page_id),
     }
     return render_to_response('main/base_list.html', context)
     
@@ -98,15 +98,10 @@ class ObjectListView(BaseView):
     
     def get_page_dict(page_id):
         page_id = int(page_id)
-        end = len(Event.objects.all()) - ObjectListView.objOnList * page_id
-        if end < 0:
-            end = 0
-            start = 0
-        else:
-            start = end - ObjectListView.objOnList
-            if start < 0 :
-                start = 0
-        
+        st_pos = len(Event.objects.all()) - ObjectListView.objOnList * page_id
+        end = st_pos if st_pos > 0 else 0
+        start = end - ObjectListView.objOnList if end > ObjectListView.objOnList else 0
+
         #need to cut description
         all = Event.objects.all()[start: end][::-1]
         
@@ -117,55 +112,48 @@ class ObjectListView(BaseView):
         
         
     def get(self, request):
-        context = {
-            'name' : 'Events',
-            'events': ObjectListView.get_page_dict(0),
-            'add_form' : AddEventForm(),
-        }
-        return super().get(request, 'main/main.html', context)
+        return super().render(
+            request, 
+            'main/main.html', 
+            context = {
+                'name': 'Events',
+                'events': ObjectListView.get_page_dict(0),
+                'add_form': AddEventForm(),
+            }
+        )
 
 
 # View 
 class ObjectView(BaseView):
     def get(self, request, event_id):
-        # try:
-        obj = get_object_or_404(Event, id = event_id)
-        if obj.participation.filter(id=request.user.id).exists():
-            status = True
-        else:
-            status = False
+        obj = get_object_or_404(Event, id=event_id)
 
-        context = {
-            'event' : obj,
-            'status' : status
-        }
-        return super().get(request, 'object/object.html', context)
+        return super().render(
+            request, 
+            'object/object.html', 
+            context = {
+                'event': obj,
+                'status': obj.participation.filter(id=request.user.id).exists(),
+            }
+        )
         
     # @login_required(redirect_field_name='login_url')
     def post(self, request, event_id):
-        # ToDo : check if correct
-        # try:
-        event = Event.objects.get(id=event_id)
+        event = get_object_or_404(Event, id=event_id)
         if request.user.is_authenticated():
             state = request.POST.get('state')
-            
-            
-            if state == 'True' and not event.participation.filter(id=request.user.id).exists():
-                try:
-                    event.participation.add(request.user)
-                except Exception:
-                    return HttpResponse("Add 2 " + str(request.user.id))
+            if state == 'True' \
+                and not event.participation.filter(id=request.user.id).exists():
+                event.participation.add(request.user)
 
-            
-            if state == 'False' and event.participation.filter(id=request.user.id).exists():
-                try:
-                    event.participation.remove(User.objects.get(id=request.user.id))
-                except Exception:
-                    return HttpResponse("Delete 2")
+            if state == 'False' \
+                and event.participation.filter(id=request.user.id).exists():
+                event.participation.remove(request.user)
 
-        
-        context = { 'users' : event.participation.all() }
-        return render_to_response('object/base_user_list.html', context)
+        return render_to_response(
+            'object/base_user_list.html', 
+            { 'users': event.participation.all() }
+        )
         
 
         
@@ -176,7 +164,7 @@ def add_obj(request):
         event = form.fill_object()
         
         #saving file
-        f = File(request.FILES["image"])
+        f = File(request.FILES.get("image"))
         fs = FileSystemStorage()
         file_url = r'images/pokemons/%d%s' % (event.id, '.jpg')
         uploaded_file_url = 'main/static/main/'+file_url
@@ -185,5 +173,5 @@ def add_obj(request):
         event.imageUrl = file_url
         event.save()
         return redirect('main_page')
-    return HttpResponse(form.errors)
+    return JsonResponse(form.errors)
     
