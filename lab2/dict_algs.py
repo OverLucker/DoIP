@@ -3,9 +3,10 @@
         if child["age"] > 18:
             return True
     return False
-    
+
+
 if __name__ == "__main__":
-    #Дано
+    # Дано
     ivan = {
         "name": "darja",
         "age": 34,
@@ -17,11 +18,11 @@ if __name__ == "__main__":
             "age": 10,
         }],
     }
-    
+
     darja = {
-        "name" : "darja",
-        "age" : 41,
-        "children" : [{
+        "name": "darja",
+        "age": 41,
+        "children": [{
             "name": "kirill",
             "age": 21,
         }, {
@@ -30,8 +31,7 @@ if __name__ == "__main__":
         }],
     }
     emps = [ivan, darja]
-    
+
     for i in emps:
         if check_childrens(i):
             print(i["name"])
-                
