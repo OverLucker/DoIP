@@ -18,9 +18,9 @@ class BaseClient:
 
     def _get_data(self, method, http_method):
         response = None
-        
+
         # todo выполнить запрос
-        
+
         return self.response_handler(response)
 
     def response_handler(self, response):
@@ -31,4 +31,3 @@ class BaseClient:
             self.method,
             http_method=self.http_method
         )
-        
