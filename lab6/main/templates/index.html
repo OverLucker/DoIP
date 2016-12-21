@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <div class="container">
+    {% for item in list %}
+
+      {% include 'object.html' with object=item add_link=True%}
+
+    {% empty %}
+    {% endfor %}
+  </div>
+{% endblock %}

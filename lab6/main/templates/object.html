@@ -1,0 +1,16 @@
+{% load static %}
+
+<div class="jumbotron">
+  <div class="media">
+    <a class="media-left" href="#">
+      <img class="media-object" src="{% static object.imageUrl %}" alt="Generic placeholder image" style="width:200px;height:200px;">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">{{ object.name }}</h4>
+      {{ object.desc }}
+    </div>
+  </div>
+  {% if add_link %}
+  <a role="button" class="btn btn-default pull-right" href={% url 'object' object_id=item.id %}>Check out it</a>
+  {% endif %}
+</div>
