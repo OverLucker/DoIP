@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% load static %}
+    <script type="text/javascript" src="{% static 'jquery-3.1.1.min.js' %}"></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.js" ></script>
+    <style type="text/css">
+      .input_wrapper{
+        margin: 10px auto;
+      }
+      
+      label{
+        display: inline-block;
+        width: 50px;
+      }
+      
+      #display{
+        height: 400px;
+        width: 620px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div class="input_wrapper">
+      <label for="low">From</label>
+      <input type="number" name="low" />
+    </div>
+    <div class="input_wrapper">
+      <label for="high">To</label>
+      <input type="number" name="high" />
+    </div>
+    
+    <div class="input_wrapper">
+      <label for="function">From</label>
+      <input name="function" />
+    </div>
+    <button id="plot">PLOT!</button>
+    <h1>Graphic</h1>
+    <div id="display">
+    </div>
+    <script type="text/javascript" src="{% static 'script.js' %}"></script>
+    
+  </body>
+</html>
