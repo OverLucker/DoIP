@@ -1,12 +1,13 @@
 import os
 import textwrap
-from main.models import Event 
+from main.models import Event
 import random
 from django.utils import timezone
 
-path = 'main/static/images/pokemons'
 
-addresses =[
+path = '.'
+
+addresses = [
     'Moscow, Arbat',
     'Moscow, Teatralnaya',
     'Moscow, Red Square',
@@ -38,11 +39,6 @@ sportTypes = [
     "Sleeping"
 ]
 
-def fix():
-    images = list(filter( lambda x : "jpg" in x , next(os.walk(path))[2]))
-    for i in Team.objects.all():
-        i.imageUrl = "images/pokemons/" + random.choice(images)
-        i.save()
 
 def generate():
     with open(os.path.join(path, 'names.txt'), "r", encoding='utf-8') as file:
@@ -53,17 +49,15 @@ def generate():
     with open(os.path.join(path, 'descs.txt'), "r") as file:
         descs = textwrap.wrap(file.read(), 200)
 
-    # print ( descs )
-
-    images = list(filter( lambda x : "jpg" in x , next(os.walk(path))[2]))
+    images = list(filter(lambda x: "jpg" in x, next(os.walk(path))[2]))
 
     print(images)
 
     for i in range(1000):
-        t = Event.objects.create(
-            name = random.choice(names),
-            address = random.choice(addresses),
-            time = timezone.datetime(
+        Event.objects.create(
+            name=random.choice(names),
+            address=random.choice(addresses),
+            time=timezone.datetime(
                 year=random.randrange(2000, 2020),
                 month=random.randrange(1, 12),
                 day=random.randrange(1, 28),
@@ -71,7 +65,6 @@ def generate():
                 minute=random.randrange(0, 60),
                 tzinfo=timezone.utc
             ),
-            desc = random.choice(descs),
-            imageUrl = "images/pokemons/" + random.choice(images)
+            desc=random.choice(descs),
+            imageUrl="images/pokemons/" + random.choice(images)
         )
-        

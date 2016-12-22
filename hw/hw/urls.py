@@ -16,12 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
-from main import urls 
+from main import urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('main.urls')),
-    # url(r'^login/', auth_views.login, {'extra_context' : { 'authorized' : False, 'user' : {'name' : 'my_name'} } }, name='login')
-    # url(r'^', include('django.contrib.auth.urls')),
 ]
-# { 'authorized' : True, 'user' : {'name' : 'my_name'} }
