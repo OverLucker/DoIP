@@ -1,6 +1,3 @@
-
-// window.onload = function(){ alert('asd'); }
-
 $('#plot').click(function(){
     low = parseFloat($('input[name=low]').val());
     high = parseFloat($('input[name=high]').val());
@@ -13,8 +10,7 @@ $('#plot').click(function(){
         const y = eval(func)
         func_arr.push([x, y]);
     }
-    // alert(func_arr);
-    // func_arr = [[0,1], [0,2], [0,3] ];
+
     $.plot(
         $('#display'), 
         [{
@@ -24,5 +20,5 @@ $('#plot').click(function(){
         }], 
         {}
     );
-    // alert(low + ' ' + high + ' ' + func);
+
 })

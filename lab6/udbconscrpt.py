@@ -18,12 +18,13 @@ class Event():
         cur = connection.cursor()
         cur.execute("SELECT * FROM main_event WHERE id=%d" % (id,))
         res = cur.fetchall()[0]
-        self.id = res[0]
-        self.name = res[1]
-        self.address = res[2]
-        self.time = res[3]
-        self.desc = res[4]
-        self.imageUrl = res[5]
+        if res:
+            self.id = res[0]
+            self.name = res[1]
+            self.address = res[2]
+            self.time = res[3]
+            self.desc = res[4]
+            self.imageUrl = res[5]
         cur.close()
         return self
 
@@ -41,5 +42,5 @@ if __name__ == "__main__":
     )
 
     ev = Event()
-    print(ev.get(con, 5))
+    print(ev.get(con, 90))
     con.close()

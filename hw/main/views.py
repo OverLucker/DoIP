@@ -103,8 +103,8 @@ class ObjectListView(BaseView):
         all = Event.objects.all()[start: end: -1]
 
         for i in all:
-            if len(i.desc) > 200:
-                i.desc = i.desc[:200] + '...'
+                if i.desc and len(i.desc) > 200:
+                    i.desc = i.desc[:200] + '...'
         return all
 
     def get(self, request):
@@ -146,7 +146,7 @@ class ObjectListView(BaseView):
 class ObjectView(BaseView):
     def get(self, request, event_id):
         obj = get_object_or_404(Event, id=event_id)
-        id = reuqest.user.id
+        id = request.user.id
 
         return super().render(
             request,
